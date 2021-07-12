@@ -1,25 +1,37 @@
 import React, { Component } from 'react';
 import MovieCard from '../components/MovieCard';
+import { getMovies } from '../services/movieAPI';
 
 // import * as movieAPI from '../services/movieAPI';
 
 class MovieList extends Component {
   constructor() {
     super();
-
     this.state = {
       movies: [],
+      loading: true,
     };
   }
 
-  render() {
-    const { movies } = this.state;
+  componentDidMount() {
+    getMovies()
+      .then((data) => {
+        this.setState({
+          movies: data,
+          loading: false,
+        });
+      });
+  }
 
+  render() {
+    const { movies, loading } = this.state;
+    const loadingMessage = <p>Carregando...</p>;
     // Render Loading here if the request is still happening
+    if (loading) { return loadingMessage; }
 
     return (
       <div data-testid="movie-list">
-        {movies.map((movie) => <MovieCard key={ movie.title } movie={ movie } />)}
+        {movies.map((movie) => <MovieCard key={ movie.title } movie={ movie } />) }
       </div>
     );
   }
