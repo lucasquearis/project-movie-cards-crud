@@ -6,11 +6,6 @@ class MovieForm extends React.Component {
     super(props);
     this.state = {
       ...props.movie,
-      title: '',
-      subtitle: '',
-      imagePath: '',
-      genre: 'action',
-      rating: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
