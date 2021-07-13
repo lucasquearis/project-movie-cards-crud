@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { getMovie } from '../services/movieAPI';
+import { getMovie, deleteMovie } from '../services/movieAPI';
 import { Loading } from '../components';
 
 class MovieDetails extends Component {
@@ -10,6 +10,7 @@ class MovieDetails extends Component {
     this.state = {
       loading: true,
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -24,14 +25,17 @@ class MovieDetails extends Component {
       });
   }
 
+  handleClick() {
+    const { match: { params: { id } } } = this.props;
+    deleteMovie(id);
+    return '/';
+  }
+
   render() {
     const { loading } = this.state;
-    // Change the condition to check the state
-    // if (true) return <Loading />;
     if (loading) { return <Loading />; }
     const { movie } = this.state;
     const { id, title, storyline, imagePath, genre, rating, subtitle } = movie;
-
     return (
       <div data-testid="movie-details">
         <img alt="Movie Cover" src={ `../${imagePath}` } />
@@ -40,6 +44,9 @@ class MovieDetails extends Component {
         <p>{ `Storyline: ${storyline}` }</p>
         <p>{ `Genre: ${genre}` }</p>
         <p>{ `Rating: ${rating}` }</p>
+        <div>
+          <Link to="/" onClick={ this.handleClick }>DELETAR</Link>
+        </div>
         <div>
           <Link to="/">VOLTAR</Link>
         </div>
