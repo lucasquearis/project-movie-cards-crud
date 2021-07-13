@@ -24,7 +24,6 @@ class EditMovie extends Component {
     const { updateMovie } = movieAPI;
     updateMovie(updatedMovie);
     this.setState({ shouldRedirect: true, status: 'loading' });
-    console.log(this.state);
   }
 
   render() {
